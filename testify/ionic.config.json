@@ -1,0 +1,7 @@
+{
+  "name": "testify",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
