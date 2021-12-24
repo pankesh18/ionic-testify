@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { File } from '@awesome-cordova-plugins/file/ngx';
+import { DatabaseService } from 'src/app/common/Database/database.service';
 
 @Component({
   selector: 'app-login',
@@ -11,14 +12,23 @@ export class LoginPage implements OnInit {
   isLogin:boolean=true;
   UserName:string;
   Password:string;
-
-  constructor(private file: File) { }
+  UserTypeId:number;
+  constructor(private file: File,private db: DatabaseService) { }
 
   ngOnInit() {
   }
 
   validateLogin(){
 
+    this.db.getDatabaseState().subscribe(rdy => {
+        console.log(rdy);
+        if(rdy){
+          this.db.getUser(this.UserName,this.Password)
+          .then(res=>{
+            console.log(res)
+          })
+        }
+    });
   }
 
   renderRegister(){
@@ -28,12 +38,16 @@ export class LoginPage implements OnInit {
 
   Register(){
 
-    let user={
-      "Username": this.UserName,
-      "Password": this.Password
-    }
 
-
+    this.db.getDatabaseState().subscribe(rdy => {
+        console.log(rdy);
+        if(rdy){
+          this.db.addUser(this.UserName,this.Password,this.UserTypeId)
+          .then(res=>{
+            console.log(res)
+          })
+        }
+    });
 
   }
 

@@ -59,6 +59,17 @@
               <ion-col>Password:</ion-col>
               <ion-col><ion-input type="password" [(ngModel)]="Password" placeholder="Enter Password" pattern="^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$" style="padding: 0;"></ion-input></ion-col>
             </ion-row>
+            <ion-row class="ion-justify-content-around">
+              <ion-col>
+                <ion-item>
+                  <ion-label>UserRole:</ion-label>
+                  <ion-select placeholder="Select One" [(ngModel)]="UserTypeId">
+                    <ion-select-option value="1">Admin</ion-select-option>
+                    <ion-select-option value="2">Student</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
           </ion-grid>
 
 
