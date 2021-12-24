@@ -1,0 +1,75 @@
+
+<ion-header style="text-align: justify;">
+  <ion-toolbar>
+    <ion-title>Welcome to Testify!</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+  <ion-grid id="Login" *ngIf="isLogin">
+    <ion-row class="ion-justify-content-around" style="margin-bottom: 10%;margin-top: 10%;">
+      Please Login
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+
+
+
+          <ion-grid>
+            <ion-row class="ion-justify-content-around">
+              <ion-col>Username:</ion-col>
+              <ion-col><ion-input type="text" [(ngModel)]="UserName" placeholder="Enter Username" pattern="^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$" style="padding: 0;"></ion-input></ion-col>
+            </ion-row>
+            <br>
+            <ion-row class="ion-justify-content-around">
+              <ion-col>Password:</ion-col>
+              <ion-col><ion-input type="password" [(ngModel)]="Password" placeholder="Enter Password" pattern="^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$" style="padding: 0;"></ion-input></ion-col>
+            </ion-row>
+          </ion-grid>
+
+
+
+
+    </ion-row>
+    <ion-row class="ion-justify-content-around" style="margin-top: 10%;">
+      <ion-button type="submit" (click)="validateLogin()">Login</ion-button>
+
+    </ion-row>
+    <ion-row class="ion-justify-content-around">
+      <a (click)="this.isLogin=!this.isLogin">Don't have an account yet?</a>
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-grid id="Register" *ngIf="!isLogin">
+    <ion-row class="ion-justify-content-around" style="margin-bottom: 10%;margin-top: 10%;">
+      Register New User!
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+
+
+
+          <ion-grid>
+            <ion-row class="ion-justify-content-around">
+              <ion-col>Username:</ion-col>
+              <ion-col><ion-input type="text" [(ngModel)]="UserName" placeholder="Enter Username" pattern="^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$" style="padding: 0;"></ion-input></ion-col>
+            </ion-row>
+            <br>
+            <ion-row class="ion-justify-content-around">
+              <ion-col>Password:</ion-col>
+              <ion-col><ion-input type="password" [(ngModel)]="Password" placeholder="Enter Password" pattern="^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$" style="padding: 0;"></ion-input></ion-col>
+            </ion-row>
+          </ion-grid>
+
+
+
+
+    </ion-row>
+    <ion-row class="ion-justify-content-around" style="margin-top: 10%;">
+      <ion-button type="submit" (click)="Register()">Register</ion-button>
+
+    </ion-row>
+    <ion-row class="ion-justify-content-around">
+      <a (click)="this.isLogin=!this.isLogin">Have an existing account?</a>
+    </ion-row>
+  </ion-grid>
