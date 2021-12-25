@@ -35,8 +35,9 @@
       <ion-button type="submit" (click)="validateLogin()">Login</ion-button>
 
     </ion-row>
+
     <ion-row class="ion-justify-content-around">
-      <a (click)="this.isLogin=!this.isLogin">Don't have an account yet?</a>
+      <a (click)="renderRegister()">Don't have an account yet?</a>
     </ion-row>
   </ion-grid>
 
@@ -81,6 +82,6 @@
 
     </ion-row>
     <ion-row class="ion-justify-content-around">
-      <a (click)="this.isLogin=!this.isLogin">Have an existing account?</a>
+      <a (click)="renderRegister()">Have an existing account?</a>
     </ion-row>
   </ion-grid>

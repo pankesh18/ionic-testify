@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+
 import { File } from '@awesome-cordova-plugins/file/ngx';
+import { ToastController } from '@ionic/angular';
 import { DatabaseService } from 'src/app/common/Database/database.service';
+import { StorageService } from 'src/app/common/Storage/storage.service';
+import { LoginService } from './login.service';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,41 +18,94 @@ export class LoginPage implements OnInit {
   UserName:string;
   Password:string;
   UserTypeId:number;
-  constructor(private file: File,private db: DatabaseService) { }
+  constructor(private router: Router,private route: ActivatedRoute,private file: File,private db: DatabaseService, private login :LoginService,private storageService:StorageService,private toastController: ToastController) {
+
+  this.checkSession();
+
+   }
 
   ngOnInit() {
+
   }
 
   validateLogin(){
-
     this.db.getDatabaseState().subscribe(rdy => {
-        console.log(rdy);
         if(rdy){
           this.db.getUser(this.UserName,this.Password)
-          .then(res=>{
-            console.log(res)
+          .then(data=>{
+            console.log(data)
+            if(data!=null && data!=undefined){
+              this.storageService.setItem('UserInfo',JSON.stringify(data));
+              this.checkSession();
+            }
+            else{
+              this.presentToast('Invalid Login!')
+            }
+
           })
+
         }
     });
+
+
+
   }
 
   renderRegister(){
     this.isLogin=!this.isLogin;
-
+    this.UserName=undefined;
+    this.Password=undefined;
+    this.UserTypeId=undefined;
   }
 
   Register(){
-
-
     this.db.getDatabaseState().subscribe(rdy => {
-        console.log(rdy);
         if(rdy){
           this.db.addUser(this.UserName,this.Password,this.UserTypeId)
-          .then(res=>{
-            console.log(res)
+          .subscribe(data=>{
+            console.log(data)
+            this.presentToast('User Account Created!')
+            this.renderRegister();
           })
+
         }
     });
+
+  }
+
+  async presentToast(Message:string) {
+    const toast = await this.toastController.create({
+      message: Message,
+      duration: 2000
+    });
+    toast.present();
+  }
+
+
+  checkSession(){
+
+
+    setTimeout(() => {
+
+    this.storageService.getItem('UserInfo').then(obj=>{
+      if(obj!=null && obj!=undefined){
+        let userInfo=JSON.parse(obj);
+
+        if(userInfo.UserId==undefined){
+          this.storageService.clearStorage();
+          this.router.navigate(['/', 'login'])
+        }
+        else{
+          this.router.navigate(['/', 'home'])
+        }
+      }
+      else{
+        this.router.navigate(['/', 'login'])
+      }
+    })
+    }, 1000);
+
+
 
   }
 

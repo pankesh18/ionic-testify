@@ -7,6 +7,7 @@ import { File } from '@awesome-cordova-plugins/file/ngx';
 import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
+import { StorageService } from 'src/app/common/Storage/storage.service';
 
 @NgModule({
   imports: [
