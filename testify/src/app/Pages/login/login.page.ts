@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
   UserTypeId:number;
   constructor(private router: Router,private route: ActivatedRoute,private file: File,private db: DatabaseService, private login :LoginService,private storageService:StorageService,private toastController: ToastController) {
 
-  this.checkSession();
+  this.storageService.checkSession();
 
    }
 
@@ -36,7 +36,8 @@ export class LoginPage implements OnInit {
             console.log(data)
             if(data!=null && data!=undefined){
               this.storageService.setItem('UserInfo',JSON.stringify(data));
-              this.checkSession();
+              this.storageService.checkSession();
+
             }
             else{
               this.presentToast('Invalid Login!')
@@ -82,31 +83,6 @@ export class LoginPage implements OnInit {
   }
 
 
-  checkSession(){
 
-
-    setTimeout(() => {
-
-    this.storageService.getItem('UserInfo').then(obj=>{
-      if(obj!=null && obj!=undefined){
-        let userInfo=JSON.parse(obj);
-
-        if(userInfo.UserId==undefined){
-          this.storageService.clearStorage();
-          this.router.navigate(['/', 'login'])
-        }
-        else{
-          this.router.navigate(['/', 'home'])
-        }
-      }
-      else{
-        this.router.navigate(['/', 'login'])
-      }
-    })
-    }, 1000);
-
-
-
-  }
 
 }

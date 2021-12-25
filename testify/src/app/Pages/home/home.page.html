@@ -3,8 +3,13 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Testify</ion-list-header>
-          <ion-note>10586419@mydbs.ie</ion-note>
+          <ion-header>
+            <ion-toolbar>
+              <ion-list-header>Testify</ion-list-header>
+              <ion-note>10586419@mydbs.ie</ion-note>
+            </ion-toolbar>
+          </ion-header>
+
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
@@ -12,7 +17,20 @@
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
+
+
+
+
+
+
         </ion-list>
+        <ion-footer>
+          <ion-item (click)="presentAlertConfirm()">
+          <ion-icon size="large" name="log-out-sharp" style="margin: 10px;"></ion-icon>
+          <ion-label>Logout </ion-label>
+        </ion-item>
+        </ion-footer>
+
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
