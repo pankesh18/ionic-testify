@@ -28,7 +28,7 @@ export class HomePage implements OnInit {
   }
 
 
-  async presentAlertConfirm() {
+  async AlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Confirm',
@@ -37,16 +37,15 @@ export class HomePage implements OnInit {
         {
           text: 'No',
           role: 'cancel',
-          cssClass: 'secondary',
           id: 'cancel-button',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+            console.log('Confirm Cancel');
           }
         }, {
           text: 'Yes',
           id: 'confirm-button',
           handler: () => {
-            console.log('Confirm Okay');
+            console.log('Confirm yes');
             this.logout()
           }
         }
