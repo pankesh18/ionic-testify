@@ -83,4 +83,181 @@ testSQL() {
     });
   }
 
+
+  getQuestionType(){
+    return this.db.executeSql('SELECT * FROM QuestionType',[]).then(data => {
+       let dataList=[]
+      if(data.rows.length>0){
+
+        for(let i=0; i<data.rows.length;i++){
+          dataList.push({
+            QuestionTypeId: data.rows.item(i).QuestionTypeId,
+            QuestionTypeDescription: data.rows.item(i).QuestionTypeDescription,
+            IsAutoGrading: data.rows.item(i).IsAutoGrading
+          })
+        }
+        return dataList;
+      }
+      else{
+        return null;
+      }
+
+
+    });
+  }
+
+  getTopicsList(){
+    return this.db.executeSql('SELECT * FROM Topic',[]).then(data => {
+       let dataList=[]
+      if(data.rows.length>0){
+
+        for(let i=0; i<data.rows.length;i++){
+          dataList.push({
+            TopicId: data.rows.item(i).TopicId,
+            TopicName: data.rows.item(i).TopicName
+          })
+        }
+        return dataList;
+      }
+      else{
+        return null;
+      }
+
+
+    });
+  }
+
+
+  addTest(TestName,	CourseId,	CreatedBy) {
+    let data = [TestName, CourseId,CreatedBy];
+    return from(this.db.executeSql('INSERT INTO Test (TestName, CourseId,CreatedBy) VALUES (?, ?, ?)', data).then(row=>{  return row.insertId }));
+  }
+
+
+  addTopic(TopicName) {
+    let data = [TopicName];
+    return from(this.db.executeSql('INSERT INTO Topic (TopicName) VALUES (?)', data).then(row=>{  return row.insertId }));
+  }
+
+
+  addQuestion(QuestionBody,	QuestionTypeId,	TopicId	,TestId) {
+    let data = [QuestionBody,	QuestionTypeId,	TopicId	,TestId];
+    return from(this.db.executeSql('INSERT INTO Question (QuestionBody,	QuestionTypeId,	TopicId	,TestId) VALUES (?, ?, ?, ?)', data).then(row=>{  return row.insertId }))
+  }
+
+  addOption(OptionBody,	IsCorrect	,QuestionId) {
+    let data = [OptionBody,	IsCorrect	,QuestionId];
+    return from(this.db.executeSql('INSERT INTO AnswerOption (OptionBody,	IsCorrect	,QuestionId) VALUES (?, ?, ?)', data).then(row=>{  return row.insertId }))
+  }
+
+
+  getTestList(CreatedBy){
+    return this.db.executeSql('SELECT Test.TestId,	Test.TestName,	Test.CourseId,	User.Username FROM Test INNER JOIN User on Test.CreatedBy = User.UserId WHERE Test.CreatedBy = ?;',[CreatedBy]).then(data => {
+       let dataList=[]
+      if(data.rows.length>0){
+
+        for(let i=0; i<data.rows.length;i++){
+          dataList.push({
+            TestId: data.rows.item(i).TestId,
+            TestName: data.rows.item(i).TestName,
+            CourseId : data.rows.item(i).TestName,
+            Username : data.rows.item(i).Username
+          })
+        }
+        return dataList;
+      }
+      else{
+        return null;
+      }
+
+
+    });
+  }
+
+
+  getStudentTestList(){
+    return this.db.executeSql('SELECT Test.TestId,	Test.TestName,	Test.CourseId,	User.Username FROM Test INNER JOIN User on Test.CreatedBy = User.UserId;',[]).then(data => {
+       let dataList=[]
+      if(data.rows.length>0){
+
+        for(let i=0; i<data.rows.length;i++){
+          dataList.push({
+            TestId: data.rows.item(i).TestId,
+            TestName: data.rows.item(i).TestName,
+            CourseId : data.rows.item(i).TestName,
+            Username : data.rows.item(i).Username
+          })
+        }
+        return dataList;
+      }
+      else{
+        return null;
+      }
+
+
+    });
+  }
+
+
+
+
+
+  getTestPadQuestions(TestId){
+    // return
+
+
+    return this.db.executeSql('SELECT * FROM Question WHERE TestId= ?',[TestId]).then(data => {
+       let dataList=[]
+        let rowdata=data;
+      if(rowdata.rows.length>0) {
+
+        for(let i=0; i<rowdata.rows.length;i++){
+
+
+
+          dataList.push({
+            QuestionId: rowdata.rows.item(i).QuestionId,
+            QuestionBody: rowdata.rows.item(i).QuestionBody,
+            QuestionTypeId : rowdata.rows.item(i).QuestionTypeId,
+            TopicId : rowdata.rows.item(i).TopicId,
+            TestId : rowdata.rows.item(i).TestId,
+            OptionList: []
+          })
+
+        }
+        return dataList;
+      }
+      else{
+        return null;
+      }
+
+
+    })
+
+  }
+
+
+
+  getQuestionItem(QuestionId){
+    let optionList=[]
+    return this.db.executeSql('SELECT * FROM AnswerOption WHERE QuestionId = ?',[QuestionId]).then(data => {
+      for(let j=0; j<data.rows.length;j++){
+        optionList.push({
+          AnswerOptionId :data.rows.item(j).AnswerOptionId,
+          OptionBody :data.rows.item(j).OptionBody,
+          IsCorrect :data.rows.item(j).IsCorrect,
+          QuestionId :data.rows.item(j).QuestionId
+
+        })
+
+
+      }
+
+
+    return optionList
+    })
+  }
+
+
+
 }

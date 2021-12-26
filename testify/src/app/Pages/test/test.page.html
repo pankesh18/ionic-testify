@@ -1,0 +1,17 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>test</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+<app-test-list [testlist]="testlist"></app-test-list>
+
+<app-create-test (OutTestInfo)="getTestInfo($event)" *ngIf="pageSquenceNo===1"></app-create-test>
+
+
+<app-add-question (OutQuestionList)="getQuestionList($event)" *ngIf="pageSquenceNo===2"></app-add-question>
+
+<button ion-button type="button" block  (click)="createTest()" *ngIf="pageSquenceNo===1">Create Test</button>
+</ion-content>

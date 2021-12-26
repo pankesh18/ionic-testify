@@ -1,0 +1,76 @@
+<p>
+  testpad works!
+</p>
+
+<div class="card" *ngFor="let question of this.questionlist; let i=index;">
+	<h5>Question No. {{i+1}}</h5>
+	<p-splitter [style]="{'height': '300px'}" styleClass="p-mb-5">
+		<ng-template pTemplate>
+			<div class="p-col p-d-flex p-ai-center p-jc-center">
+        <span [innerHTML]="question.QuestionBody"></span>
+			</div>
+		</ng-template>
+		<ng-template pTemplate *ngIf="question.QuestionTypeId===1">
+			<div class="p-col p-d-flex p-ai-center p-jc-center">
+
+
+        <ion-list style="width: 100%;">
+          <ion-radio-group value="question.Answer">
+            <ion-list-header>
+              <ion-label>Options</ion-label>
+            </ion-list-header>
+
+            <ion-item *ngFor="let option of question.OptionList; let j = index">
+              <ion-label><span [innerHTML]="option.OptionBody"></span></ion-label>
+              <ion-radio slot="start" value="option.AnswerOptionId"></ion-radio>
+            </ion-item>
+
+          </ion-radio-group>
+        </ion-list>
+
+
+			</div>
+		</ng-template>
+    <ng-template pTemplate *ngIf="question.QuestionTypeId===2">
+			<div class="p-col p-d-flex p-ai-center p-jc-center" >
+        <ion-list>
+          <ion-list-header>
+            <ion-label></ion-label>
+          </ion-list-header>
+
+          <ion-item>
+            <ion-label>Write your answer here :   </ion-label>
+            <textarea></textarea>
+          </ion-item>
+
+          <ion-item>
+
+
+          </ion-item>
+
+
+
+        </ion-list>
+
+
+			</div>
+		</ng-template>
+
+	</p-splitter>
+</div>
+
+<!-- <div class="card">
+	<h5>Vertical</h5>
+	<p-splitter [style]="{'height': '300px'}" styleClass="p-mb-5" layout="vertical">
+		<ng-template pTemplate>
+			<div class="p-col p-d-flex p-ai-center p-jc-center">
+				Panel 1
+			</div>
+		</ng-template>
+		<ng-template pTemplate>
+			<div class="p-col p-d-flex p-ai-center p-jc-center">
+				Panel 2
+			</div>
+		</ng-template>
+	</p-splitter>
+</div> -->

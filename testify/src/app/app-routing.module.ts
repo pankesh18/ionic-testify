@@ -16,6 +16,16 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./Pages/login/login.module').then( m => m.LoginPageModule)
   }
+  // ,
+  // {
+  //   path: 'student-test',
+  //   loadChildren: () => import('./Pages/student-test/student-test.module').then( m => m.StudentTestPageModule)
+  // }
+  // ,
+  // {
+  //   path: 'test',
+  //   loadChildren: () => import('./Pages/test/test.module').then( m => m.TestPageModule)
+  // }
 ];
 
 @NgModule({

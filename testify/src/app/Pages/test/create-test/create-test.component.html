@@ -1,0 +1,35 @@
+
+
+  <ion-grid>
+<ion-row class="ion-justify-content-around">
+    <ion-list>
+      <ion-list-header>
+        <ion-label>
+          Create Test
+        </ion-label>
+      </ion-list-header>
+    <ion-col>
+      <ion-item>
+        <ion-label>Test Name</ion-label>
+        <ion-input type="text" [(ngModel)]="test.TestName" name="TestName" placeholder="Enter Test Name"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col>
+      <ion-item>
+        <ion-label>Course</ion-label>
+        <ion-select placeholder="Select Course" [(ngModel)]="test.CourseId">
+          <ion-select-option *ngFor="let course of courseList"  [value]="course.CourseId">{{course.CourseName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+    </ion-list>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="4"></ion-col>
+    <ion-col>
+    <button ion-button type="button" block  (click)="AddTestInfo()" >Next</button>
+  </ion-col>
+  <ion-col size="4"></ion-col>
+  </ion-row>
+  </ion-grid>
+

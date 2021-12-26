@@ -11,9 +11,9 @@ import { AlertController } from '@ionic/angular';
 export class HomePage implements OnInit {
   public appPages = [
     { title: 'Profile', url: '/profile', icon: 'person' },
-    { title: 'Test', url: '/Test', icon: 'paper-plane' },
-    { title: 'Result', url: '/Result', icon: 'heart' },
-
+    { title: 'Test', url: '/home/test', icon: 'paper-plane' },
+    { title: 'Student-Test', url: '/home/studenttest', icon: 'clipboard' },
+    { title: 'Result', url: '/result', icon: 'heart' }
   ];
 
 

@@ -1,0 +1,137 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Question</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+
+
+<!-- List of Questions -->
+<ion-list>
+  <ion-item *ngFor="let question of QuestionList;let i = index">
+    <ion-label>{{i+1}}. {{question.QuestionBody}} <span innerHtml=""></span></ion-label>
+  </ion-item>
+</ion-list>
+
+
+
+
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Question</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+  <ion-list>
+    <!-- <ion-list-header>
+      <ion-label>
+
+      </ion-label>
+    </ion-list-header> -->
+
+
+    <ion-row class="ion-justify-content-around">
+      <ion-col size="12">
+        <ion-item>
+          <ion-label>Question :</ion-label>
+          <button ion-button type="submit" hidden></button>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <p-editor [style]="{'height':'120px'}"  [(ngModel)]="QuestionBody"></p-editor>
+      </ion-col>
+    </ion-row>
+
+
+
+    <ion-row class="ion-justify-content-around">
+      <ion-col>
+        <ion-item>
+          <ion-label>Topic</ion-label>
+
+          <ion-input type="text" [(ngModel)]="Topic" placeholder="Enter Topic" style="padding: 0;" [disabled]="isExisitngTopic"></ion-input>
+
+            <ion-toggle [(ngModel)]="isExisitngTopic" (ionChange)="Topic=undefined;selectedTopic=undefined" *ngIf="isTopicList"></ion-toggle>
+
+          <ion-select placeholder="Select Existing Topic" [(ngModel)]="selectedTopic" [disabled]="!isExisitngTopic" *ngIf="isTopicList">
+            <!-- <ion-select-option  [value]="0">abc </ion-select-option> -->
+            <ion-select-option *ngFor="let topic of TopicList"  [value]="topic.TopicId">{{topic.TopicName}}</ion-select-option>
+          </ion-select>
+
+        </ion-item>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row class="ion-justify-content-around">
+      <ion-col>
+        <ion-item>
+          <ion-label>Question Type</ion-label>
+          <ion-select placeholder="Select Question Type" [(ngModel)]="selectedQuestionType">
+            <ion-select-option *ngFor="let q of QuestionType"  [value]="q.QuestionTypeId">{{q.QuestionTypeDescription}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+    </ion-row>
+
+
+
+    <ion-row class="ion-justify-content-around" *ngIf="selectedQuestionType===1">
+
+      <ion-col size="12">
+
+          <ion-label>Option List :</ion-label>
+          <button ion-button type="submit" block (click)="addOption(OptionBody)">Add Option</button>
+
+      </ion-col>
+      <ion-col>
+        <p-editor [(ngModel)]="OptionBody" [style]="{'height':'100px'}"></p-editor>
+      </ion-col>
+
+    </ion-row>
+
+
+
+    <ion-row class="ion-justify-content-around" *ngIf="selectedQuestionType===1">
+      <table style="width:100%">
+        <thead>
+            <tr>
+                <th>Option Description</th>
+                <th>IsCorrect</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let option of OptionList">
+            <tr>
+                <td>
+                  <span [innerHTML]="option.OptionBody"></span>
+                </td>
+                <td><ion-checkbox [(ngModel)]="option.IsCorrect" (ionChange)="correctSelected()"></ion-checkbox></td>
+            </tr>
+        </tbody>
+      </table>
+  </ion-row>
+
+
+
+
+
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="4"></ion-col>
+      <ion-col>
+      <button ion-button type="submit" block (click)="AddQuestion()">Add Question</button>
+      <button ion-button type="submit" block (click)="submitQuestions()">Save</button>
+    </ion-col>
+    <ion-col size="4"></ion-col>
+    </ion-row>
+
+  </ion-list>
+
+
+
+
+
+

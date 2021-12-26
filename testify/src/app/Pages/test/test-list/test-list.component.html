@@ -1,0 +1,9 @@
+<ion-list>
+  <ion-item *ngFor="let test of testlist; let i = index ">
+    <ion-label>{{i+1}}. {{test.TestName}}
+
+      <ion-note>CreatedBy : {{test.CreatedBy}}</ion-note>
+    </ion-label>
+
+  </ion-item>
+</ion-list>

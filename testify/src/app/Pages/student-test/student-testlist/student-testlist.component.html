@@ -1,0 +1,13 @@
+<p>
+  student-testlist works!
+</p>
+
+<ion-list>
+  <ion-item *ngFor="let test of testlist; let i = index ">
+    <ion-label item-left>{{i+1}}. {{test.TestName}}
+
+      <ion-note>CreatedBy : {{test.CreatedBy}}</ion-note>
+    </ion-label>
+    <button item-right >View</button>
+  </ion-item>
+</ion-list>
