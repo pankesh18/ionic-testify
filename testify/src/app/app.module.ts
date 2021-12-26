@@ -12,8 +12,9 @@ import { SQLitePorter } from '@awesome-cordova-plugins/sqlite-porter/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { StorageService } from './common/Storage/storage.service';
 import {EditorModule} from 'primeng/editor';
-
-
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { DeviceOrientation } from '@ionic-native/device-orientation/ngx';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import {EditorModule} from 'primeng/editor';
      EditorModule,
      IonicStorageModule.forRoot()
     ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },SQLite , SQLitePorter],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },SQLite , SQLitePorter,FileChooser,Camera, DeviceOrientation],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
