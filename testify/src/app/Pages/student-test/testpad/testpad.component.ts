@@ -4,6 +4,9 @@ import { DatabaseService } from 'src/app/common/Database/database.service';
 import { StorageService } from 'src/app/common/Storage/storage.service';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { DocumentViewer ,DocumentViewerOptions} from '@awesome-cordova-plugins/document-viewer/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+
 
 @Component({
   selector: 'app-testpad',
@@ -20,7 +23,7 @@ export class TestpadComponent implements OnInit {
 
 
 
-  constructor(private db: DatabaseService, private storageService: StorageService,private fileChooser: FileChooser,private camera: Camera) {
+  constructor(private db: DatabaseService, private storageService: StorageService,private fileChooser: FileChooser,private camera: Camera,private document: DocumentViewer,private filePath: FilePath) {
 
 
    }
@@ -41,8 +44,16 @@ export class TestpadComponent implements OnInit {
 
             if(data!=null && data!=undefined){
                 this.questionlist=data;
+
                 this.questionlist.forEach(element=>{
                   // element.OptionList= this.getQuestionItem(element.QuestionId)
+                  if(element.QuestionAttachments.length>0){
+                    element.Files= JSON.parse(element.QuestionAttachments)
+                  }
+                  else{
+                    element.Files= []
+                  }
+
                   element.Answer="";
                   this.db.getQuestionItem(element.QuestionId).then(options=>{
                     element.OptionList=options
@@ -137,6 +148,50 @@ openCamera(QuestionId){
    }, (err) => {
     console.log(err)
    });
+}
+
+openFile(File){
+
+//   console.log("indexes  ::  "+qIndex + ":::"+fIndex);
+
+//  let qFileList= JSON.parse(this.questionlist[qIndex].QuestionAttachments)
+
+//  console.log(qFileList);
+
+//  let File=qFileList[fIndex].File
+
+
+ console.log(File);
+
+  const options: DocumentViewerOptions = {
+    title: 'My PDF'
+  }
+
+  console.log("File :: "+File)
+
+  this.filePath.resolveNativePath(File).then(url=>{
+    console.log(url)
+    this.document.viewDocument(url, 'application/pdf', options, function(){
+
+    } , ()=>{
+
+    }, ()=>{
+
+    },(error: any)=>{
+      console.log("Error :: "+error)
+    })
+  })
+
+
+}
+
+
+submitTest(){
+
+  this.questionlist.forEach(question=>{
+    console.log(question.Answer);
+  })
+
 }
 
 

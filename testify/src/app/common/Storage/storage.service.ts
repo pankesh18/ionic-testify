@@ -43,17 +43,20 @@ export class StorageService {
 
         if(userInfo.UserId==undefined){
           this.clearStorage();
-          this.router.navigate(['/', 'login'])
+          this.router.navigate(['/login'])
+        }
+        else if(userInfo.UserTypeId==1){
+          this.router.navigate(['/home/test'])
         }
         else{
-          this.router.navigate(['/', 'home'])
+          this.router.navigate(['/home/studenttest'])
         }
       }
       else{
-        this.router.navigate(['/', 'login'])
+        this.router.navigate(['/login'])
       }
     })
-    }, 1000);
+    }, 50);
 
 
 

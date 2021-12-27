@@ -10,6 +10,9 @@ export class AppComponent {
 
   constructor(private deviceOrientation: DeviceOrientation) {
 
+    console.log('app component')
+
+
     this.deviceOrientation.getCurrentHeading().then(
       (data: DeviceOrientationCompassHeading) => console.log(data),
       (error: any) => console.log(error)

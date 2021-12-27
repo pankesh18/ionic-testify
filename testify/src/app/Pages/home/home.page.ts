@@ -17,9 +17,13 @@ export class HomePage implements OnInit {
   ];
 
 
-  constructor(private storageService:StorageService, private alertController: AlertController) { }
+  constructor(private storageService:StorageService, private alertController: AlertController) {
+    console.log('Home!!')
+    this.storageService.checkSession();
+   }
 
   ngOnInit() {
+
   }
 
   logout(){
@@ -28,31 +32,41 @@ export class HomePage implements OnInit {
   }
 
 
-  async AlertConfirm() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Confirm',
-      message: 'Do you want to logout?',
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel',
-          id: 'cancel-button',
-          handler: (blah) => {
-            console.log('Confirm Cancel');
-          }
-        }, {
-          text: 'Yes',
-          id: 'confirm-button',
-          handler: () => {
-            console.log('Confirm yes');
-            this.logout()
-          }
-        }
-      ]
-    });
+  AlertConfirm() {
+    this.logout()
 
-    await alert.present();
+    // this.alertController.create({
+    //   cssClass: 'my-custom-class',
+    //   header: 'Confirm',
+    //   message: 'Do you want to logout?',
+    //   buttons: [
+    //     {
+    //       text: 'No',
+    //       role: 'cancel',
+    //       id: 'cancel-button',
+    //       handler: (blah) => {
+    //         console.log('Confirm Cancel');
+    //       }
+    //     }, {
+    //       text: 'Yes',
+    //       id: 'confirm-button',
+    //       handler: () => {
+    //         console.log('Confirm yes');
+    //         this.logout()
+    //       }
+    //     }
+    //   ]
+    // }).then(alert=>{
+    //   alert.present().then(data=>{
+
+    //   }).catch(reason=>{
+    //     console.log(reason)
+    //   })
+    // }).catch(reason=>{
+    //   console.log(reason)
+    // })
+
+
   }
 
 }

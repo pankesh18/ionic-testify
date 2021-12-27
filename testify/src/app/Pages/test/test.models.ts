@@ -6,6 +6,7 @@ export class Test{
   CourseName: string
   CreatedBy: any
   QuestionList:Question[] = []
+
 }
 
 
@@ -19,6 +20,9 @@ export class Question
   TopicName: String
   TestId: number
   OptionList:Option[]= []
+  QuestionImageList:any[]=[];
+  QuestionFileList:any[]=[];
+  QuestionFileNameList:any[]=[];
 }
 
 export class Option{

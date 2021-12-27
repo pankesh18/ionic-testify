@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 // import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { User } from 'src/app/Pages/login/login.models';
+import { StorageService } from '../Storage/storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,12 @@ export class DatabaseService {
 
   private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private db: SQLiteObject;
+  private isSeeded:boolean=false;
+  constructor(private platform: Platform, private sqlitePorter: SQLitePorter, private sqlite: SQLite, private http: HttpClient, private storageService:StorageService) {
 
-  constructor(private platform: Platform, private sqlitePorter: SQLitePorter, private sqlite: SQLite, private http: HttpClient) {
-
+    this.storageService.getItem("isSeeded").then(value=>{
+      this.isSeeded=value;
+    })
     this.platform.ready().then(() => {
       this.sqlite.create({
         name: 'testify.db',
@@ -25,7 +29,9 @@ export class DatabaseService {
       })
       .then((db: SQLiteObject) => {
           this.db = db;
+
           this.seedDatabase();
+
       });
     });
 
@@ -33,18 +39,66 @@ export class DatabaseService {
 
 
   seedDatabase() {
-    this.http.get('../../../assets/database/db.sql', { responseType: 'text'})
-    .subscribe(sql => {
-      this.sqlitePorter.importSqlToDb(this.db, sql)
-        .then(_ => {
-          this.testSQL();
-          this.dbReady.next(true);
-        })
-        .catch(e => console.error(e));
-    });
+
+
+
+      console.log("seeding!!!!!!!")
+      this.http.get('../../../assets/database/db.sql', { responseType: 'text'})
+      .subscribe(sql => {
+        this.sqlitePorter.importSqlToDb(this.db, sql)
+          .then(_ => {
+
+            if(this.isSeeded!==true){
+              this.executeInsert();
+            }
+
+
+
+            this.dbReady.next(true);
+          })
+          .catch(e => console.error(e));
+      });
+
   }
 
- ;
+
+executeInsert(){
+
+  this.addUser("admin","admin",1)
+  this.addUser("student","student",2)
+
+  this.addCourse("Physics")
+  this.addCourse("Chemistry")
+  this.addCourse("Maths")
+  this.addCourse("Literature")
+
+
+  this.addTest('Default-Test', 3 ,1)
+
+  this.addTopic('General Topic')
+
+  let data = [1];
+  this.db.executeSql('INSERT OR IGNORE INTO QuestionType (QuestionTypeDescription,IsAutoGrading)VALUES (?, ?)', data)
+
+  this.addQuestion('<p>Testing MCQ Question 1?</p>', 1, 1,1,[])
+  this.addQuestion('<p>Testing MCQ Question 2?</p>', 1, 1,1,[])
+  this.addQuestion('<p>Testing MCQ Question 3?</p>', 1, 1,1,[])
+
+
+  this.addOption('<p>Yes</p>', 1, 1);
+  this.addOption('<p>No</p>', 0, 1);
+
+  this.addOption('<p>Yes</p>', 0, 2);
+  this.addOption('<p>No</p>', 1, 2);
+
+  this.addOption('<p>Yes</p>', 1, 3);
+  this.addOption('<p>No</p>', 0, 3);
+
+
+}
+
+
+
 
 testSQL() {
     return this.db.executeSql('SELECT DATETIME("now")', []).then(data => {
@@ -61,7 +115,12 @@ testSQL() {
 
   addUser(username, password,UserTypeId) {
     let data = [username, password,UserTypeId];
-    return from(this.db.executeSql('INSERT INTO User (Username, Password, UserTypeId) VALUES (?, ?, ?)', data))
+    return from(this.db.executeSql('INSERT OR IGNORE INTO User (Username, Password, UserTypeId) VALUES (?, ?, ?)', data))
+  }
+
+  addCourse(Coursename) {
+    let data = [Coursename];
+    return from(this.db.executeSql('INSERT OR IGNORE INTO Course (CourseName)VALUES( ? )', data))
   }
 
   getUser(Username,Password){
@@ -159,24 +218,24 @@ testSQL() {
 
   addTest(TestName,	CourseId,	CreatedBy) {
     let data = [TestName, CourseId,CreatedBy];
-    return from(this.db.executeSql('INSERT INTO Test (TestName, CourseId,CreatedBy) VALUES (?, ?, ?)', data).then(row=>{  return row.insertId }));
+    return from(this.db.executeSql('INSERT OR IGNORE  INTO Test (TestName, CourseId,CreatedBy) VALUES (?, ?, ?)', data).then(row=>{  return row.insertId }));
   }
 
 
   addTopic(TopicName) {
     let data = [TopicName];
-    return from(this.db.executeSql('INSERT INTO Topic (TopicName) VALUES (?)', data).then(row=>{  return row.insertId }));
+    return from(this.db.executeSql('INSERT  OR IGNORE  INTO Topic (TopicName) VALUES (?)', data).then(row=>{  return row.insertId }));
   }
 
 
-  addQuestion(QuestionBody,	QuestionTypeId,	TopicId	,TestId) {
-    let data = [QuestionBody,	QuestionTypeId,	TopicId	,TestId];
-    return from(this.db.executeSql('INSERT INTO Question (QuestionBody,	QuestionTypeId,	TopicId	,TestId) VALUES (?, ?, ?, ?)', data).then(row=>{  return row.insertId }))
+  addQuestion(QuestionBody,	QuestionTypeId,	TopicId	,TestId, QuestionAttachments) {
+    let data = [QuestionBody,	QuestionTypeId,	TopicId	,TestId, QuestionAttachments];
+    return from(this.db.executeSql('INSERT  OR IGNORE  INTO Question (QuestionBody,	QuestionTypeId,	TopicId	,TestId,QuestionAttachments) VALUES (?, ?, ?, ?,?)', data).then(row=>{  return row.insertId }))
   }
 
   addOption(OptionBody,	IsCorrect	,QuestionId) {
     let data = [OptionBody,	IsCorrect	,QuestionId];
-    return from(this.db.executeSql('INSERT INTO AnswerOption (OptionBody,	IsCorrect	,QuestionId) VALUES (?, ?, ?)', data).then(row=>{  return row.insertId }))
+    return from(this.db.executeSql('INSERT  OR IGNORE  INTO AnswerOption (OptionBody,	IsCorrect	,QuestionId) VALUES (?, ?, ?)', data).then(row=>{  return row.insertId }))
   }
 
 
@@ -252,6 +311,7 @@ testSQL() {
             QuestionTypeId : rowdata.rows.item(i).QuestionTypeId,
             TopicId : rowdata.rows.item(i).TopicId,
             TestId : rowdata.rows.item(i).TestId,
+            QuestionAttachments:rowdata.rows.item(i).QuestionAttachments,
             OptionList: []
           })
 

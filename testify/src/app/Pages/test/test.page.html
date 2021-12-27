@@ -16,7 +16,7 @@
 
 
 
-<app-test-list [testlist]="testlist"  *ngIf="pageSquenceNo===1"></app-test-list>
+<app-test-list [testlist]="testlist"  *ngIf="pageSquenceNo===1 && testlist!==undefined"></app-test-list>
 
 
 <ion-button color="medium" Size="small" (click)="pageSquenceNo=1" *ngIf="pageSquenceNo===2">Back to List</ion-button>

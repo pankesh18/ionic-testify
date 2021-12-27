@@ -15,6 +15,12 @@ import {EditorModule} from 'primeng/editor';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { DeviceOrientation } from '@ionic-native/device-orientation/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { DocumentViewer } from '@awesome-cordova-plugins/document-viewer/ngx';
+import { LoginPageModule } from './Pages/login/login.module';
+import { StudentTestPageModule } from './Pages/student-test/student-test.module';
+import { TestPageModule } from './Pages/test/test.module';
+import { HomePageModule } from './Pages/home/home.module';
 
 
 @NgModule({
@@ -22,12 +28,17 @@ import { DeviceOrientation } from '@ionic-native/device-orientation/ngx';
   entryComponents: [],
   imports: [BrowserModule,
      IonicModule.forRoot(),
-     AppRoutingModule,
+
      HttpClientModule,
      EditorModule,
-     IonicStorageModule.forRoot()
+     HomePageModule,
+     LoginPageModule,
+     StudentTestPageModule,
+     TestPageModule ,
+     IonicStorageModule.forRoot(),
+     AppRoutingModule
     ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },SQLite , SQLitePorter,FileChooser,Camera, DeviceOrientation],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },SQLite , SQLitePorter,FileChooser,Camera, DeviceOrientation, FilePath, DocumentViewer],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

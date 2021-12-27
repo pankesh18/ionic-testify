@@ -17,6 +17,7 @@ import { StorageService } from 'src/app/common/Storage/storage.service';
     LoginPageRoutingModule
   ],
   providers:[File],
+  exports:[LoginPage],
   declarations: [LoginPage]
 })
 export class LoginPageModule {}

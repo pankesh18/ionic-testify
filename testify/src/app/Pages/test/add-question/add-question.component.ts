@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/common/Database/database.service';
 import { Output, EventEmitter } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
 
 @Component({
   selector: 'app-add-question',
@@ -26,8 +28,11 @@ export class AddQuestionComponent implements OnInit {
   Topic:any;
   isExisitngTopic:boolean=false;
   QuestionBody:any;
-
-  constructor(private db: DatabaseService,private toastController: ToastController) { }
+  base64Image:any;
+  QuestionImageList:any[]=[];
+  QuestionFileList:any[]=[];
+  QuestionFileNameList: any[]=[];
+  constructor(private db: DatabaseService,private toastController: ToastController,private fileChooser: FileChooser,private camera: Camera,private filePath: FilePath) { }
 
   ngOnInit() {
 
@@ -103,7 +108,10 @@ export class AddQuestionComponent implements OnInit {
       "QuestionTypeId": this.selectedQuestionType,
       "TopicId":  this.isExisitngTopic? this.selectedTopic:0,
       "TopicName": this.isExisitngTopic? null : this.Topic,
-      "OptionList":this.OptionList
+      "OptionList":this.OptionList,
+      "QuestionImageList": this.QuestionImageList,
+      "QuestionFileList": this.QuestionFileList,
+      "QuestionFileNameList": this.QuestionFileNameList
     }
 
     this.QuestionList.push(question);
@@ -114,7 +122,9 @@ export class AddQuestionComponent implements OnInit {
     this.isExisitngTopic=false;
     this.OptionBody=undefined;
     this.OptionList=[];
-
+    this.QuestionImageList=[];
+    this.QuestionFileList=[];
+    this.QuestionFileNameList=[];
 
     this.submitQuestions()
 
@@ -160,6 +170,63 @@ export class AddQuestionComponent implements OnInit {
     });
 
   }
+
+
+  openFiles(){
+
+
+
+    this.fileChooser.open()
+      .then(uri =>{
+        console.log(uri)
+        this.QuestionFileList.push(uri)
+        this.getFileName(uri)
+
+      })
+      .catch(e => console.log(e));
+      }
+
+
+      getFileName(uri){
+        this.filePath.resolveNativePath(uri).then(path=>{
+          console.log(path)
+          let filename = path.substring(path.lastIndexOf('/')+1, path.length);
+          console.log(filename)
+          this.QuestionFileNameList.push(filename);
+        })
+
+      }
+
+
+
+openCamera(){
+
+
+
+
+  const options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE
+  }
+
+
+  this.camera.getPicture(options)
+  .then((imageData) => {
+    // imageData is either a base64 encoded string or a file URI
+    // If it's base64 (DATA_URL):
+    console.log(imageData)
+    let base64Image = 'data:image/jpeg;base64,' + imageData;
+    console.log(base64Image)
+
+    this.QuestionImageList.push(base64Image);
+   }, (err) => {
+    console.log(err)
+   });
+}
+
+
 
 
 }

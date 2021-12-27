@@ -16,7 +16,31 @@
 
   <ion-list>
 
+    <ion-row class="ion-justify-content-around">
+      <ion-col>
+        <ion-row>
+        <ion-col *ngFor="let image of QuestionImageList">
+        <ion-thumbnail >
+          <ion-img [src]="image"></ion-img>
+        </ion-thumbnail>
+      </ion-col>
+    </ion-row>
+        <ion-button expand="full" (click)="openCamera()">Add Image</ion-button>
 
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+      <ion-col>
+        <ion-row>
+          <ion-col *ngFor="let file of QuestionFileNameList">
+            <ion-text>{{file}}</ion-text>
+            <ion-icon name="document"> </ion-icon>
+        </ion-col>
+      </ion-row>
+        <ion-button expand="full" (click)="openFiles()">Add File</ion-button>      </ion-col>
+    </ion-row>
 
     <ion-row class="ion-justify-content-around">
       <ion-col>
