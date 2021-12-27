@@ -1,35 +1,45 @@
 
 
   <ion-grid>
-<ion-row class="ion-justify-content-around">
+
     <ion-list>
+    <ion-row>
+      <ion-col>
       <ion-list-header>
         <ion-label>
-          Create Test
+          <h1>Create Test</h1>
+
         </ion-label>
       </ion-list-header>
+      </ion-col>
+    </ion-row>
+    <ion-row>
     <ion-col>
       <ion-item>
-        <ion-label>Test Name</ion-label>
-        <ion-input type="text" [(ngModel)]="test.TestName" name="TestName" placeholder="Enter Test Name"></ion-input>
+        <ion-label>Test Name : </ion-label>
+        <ion-input type="text" required [(ngModel)]="test.TestName" name="TestName" placeholder="Enter Test Name"></ion-input>
       </ion-item>
     </ion-col>
+  </ion-row>
+    <ion-row>
     <ion-col>
       <ion-item>
-        <ion-label>Course</ion-label>
-        <ion-select placeholder="Select Course" [(ngModel)]="test.CourseId">
+        <ion-label>Course : </ion-label>
+        <ion-select placeholder="Select Course" required [(ngModel)]="test.CourseId">
           <ion-select-option *ngFor="let course of courseList"  [value]="course.CourseId">{{course.CourseName}}</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-col>
-    </ion-list>
   </ion-row>
+    </ion-list>
+
   <ion-row class="ion-justify-content-center">
-    <ion-col size="4"></ion-col>
-    <ion-col>
-    <button ion-button type="button" block  (click)="AddTestInfo()" >Next</button>
-  </ion-col>
-  <ion-col size="4"></ion-col>
+
+      <div style="margin: 15px;text-align: center;">
+        <ion-button  shape="round" (click)="AddTestInfo()">Add Questions</ion-button>
+      </div>
+    <!-- <button ion-button type="button" block  (click)="AddTestInfo()" >Next</button> -->
+
   </ion-row>
   </ion-grid>
 

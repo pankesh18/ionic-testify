@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudentTestPage implements OnInit {
 
+  testId:any;
+  pageSquence:number=1;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  gettestId(testId){
+    this.testId=testId;
+    this.pageSquence=2;
+    console.log(this.testId)
   }
 
 }

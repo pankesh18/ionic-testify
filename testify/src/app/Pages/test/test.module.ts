@@ -11,6 +11,7 @@ import { CreateTestComponent } from './create-test/create-test.component';
 import { AddQuestionComponent } from './add-question/add-question.component';
 import {EditorModule} from 'primeng/editor';
 import { TestListComponent } from './test-list/test-list.component';
+import {SplitterModule} from 'primeng/splitter';
 
 
 
@@ -20,6 +21,7 @@ import { TestListComponent } from './test-list/test-list.component';
     FormsModule,
     IonicModule,
     EditorModule,
+    SplitterModule,
     TestPageRoutingModule
 
   ],

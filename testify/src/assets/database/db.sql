@@ -3,6 +3,13 @@ INSERT INTO User (Username,Password ,UserTypeId)VALUES( 'admin', 'admin' ,1);
 INSERT INTO User (Username,Password ,UserTypeId)VALUES( 'student', 'student' ,1);
 
 
+CREATE TABLE IF NOT EXISTS Course(CourseId INTEGER PRIMARY KEY AUTOINCREMENT,CourseName TEXT);
+INSERT INTO Course (CourseName)VALUES( 'Physics');
+INSERT INTO Course (CourseName)VALUES( 'Chemistry');
+INSERT INTO Course (CourseName)VALUES( 'Maths');
+INSERT INTO Course (CourseName)VALUES( 'Literature');
+
+
 CREATE TABLE IF NOT EXISTS Test(TestId INTEGER PRIMARY KEY AUTOINCREMENT,TestName TEXT,CourseId INTEGER, CreatedBy INTEGER);
 INSERT INTO Test (TestName,CourseId ,CreatedBy)VALUES( 'Default-Test', 3 ,1);
 

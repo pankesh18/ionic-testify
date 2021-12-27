@@ -10,6 +10,7 @@ import { StudentTestPage } from './student-test.page';
 import { TestpadComponent } from './testpad/testpad.component';
 import { StudentTestlistComponent } from './student-testlist/student-testlist.component';
 import {SplitterModule} from 'primeng/splitter';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {SplitterModule} from 'primeng/splitter';
     FormsModule,
     IonicModule,
     SplitterModule,
+    ScrollPanelModule,
     StudentTestPageRoutingModule
   ],
   declarations: [StudentTestPage, TestpadComponent, StudentTestlistComponent]

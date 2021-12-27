@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DatabaseService } from 'src/app/common/Database/database.service';
 import { StorageService } from 'src/app/common/Storage/storage.service';
 
@@ -9,6 +9,7 @@ import { StorageService } from 'src/app/common/Storage/storage.service';
 })
 export class StudentTestlistComponent implements OnInit {
   testlist: any[];
+  @Output() selectedTest= new EventEmitter<any>();
 
   constructor(private db: DatabaseService, private storageService: StorageService) { }
 
@@ -17,7 +18,11 @@ export class StudentTestlistComponent implements OnInit {
 
   }
 
+  goToTest(TestId) {
 
+    this.selectedTest.emit(TestId)
+    // this.pageSquenceNo=1;
+  }
 
 
   getStudentTestList(){

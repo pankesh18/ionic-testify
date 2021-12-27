@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/common/Database/database.service';
 import { Output, EventEmitter } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -26,14 +27,27 @@ export class AddQuestionComponent implements OnInit {
   isExisitngTopic:boolean=false;
   QuestionBody:any;
 
-  constructor(private db: DatabaseService) { }
+  constructor(private db: DatabaseService,private toastController: ToastController) { }
 
   ngOnInit() {
 
     this.getQuestionType();
+    this.getExstingTopics();
+    this.selectedQuestionType=1;
   }
 
+  presentToast(Message:string) {
+    this.toastController.create({
+      message: Message,
+      position: 'top',
+      color:'danger',
+      icon: 'warning',
+      duration: 2000
+    }).then(toast=>{
+      toast.present();
+    })
 
+  }
 
 
   addOption(OptionBody){
@@ -48,15 +62,41 @@ export class AddQuestionComponent implements OnInit {
     let correctOptions= this.OptionList.filter(x=>{ return x.IsCorrect==true});
 
     if(correctOptions.length>1){
-      console.log("Cannot select more than one")
+      this.presentToast("Cannot select more than one")
+      return false
     }
     if(correctOptions.length===0){
-      console.log("Please select one option correct")
+      this.presentToast("Please select one option correct")
+      return false
     }
+    return true
   }
 
 
   AddQuestion(){
+
+
+    if(this.QuestionBody==undefined||this.QuestionBody==null||this.QuestionBody==""){
+      this.presentToast('Please Enter Question')
+      return
+    }
+    if(this.isExisitngTopic && (this.selectedTopic==undefined || this.selectedTopic==0 ||this.selectedTopic==null)){
+      this.presentToast('Please Select Topic')
+      return
+    }
+    if(!this.isExisitngTopic && (this.Topic==undefined || this.Topic=="" ||this.Topic==null)){
+      this.presentToast('Please Enter Topic')
+      return
+    }
+    if(this.OptionList==undefined ||this.OptionList==null || this.OptionList.length==0 ){
+      this.presentToast('Please Add Options')
+      return
+    }
+
+    if(!this.correctSelected()){
+      return
+    }
+
 
     let question ={
       "QuestionBody" : this.QuestionBody,
@@ -69,13 +109,14 @@ export class AddQuestionComponent implements OnInit {
     this.QuestionList.push(question);
 
     this.QuestionBody=undefined;
-    this.selectedQuestionType=undefined;
     this.selectedTopic=undefined;
     this.Topic=undefined;
     this.isExisitngTopic=false;
-
     this.OptionBody=undefined;
     this.OptionList=[];
+
+
+    this.submitQuestions()
 
   }
 
@@ -103,6 +144,7 @@ export class AddQuestionComponent implements OnInit {
 
 
   getExstingTopics(){
+    this.isExisitngTopic=false;
     this.db.getDatabaseState().subscribe(rdy => {
         if(rdy){
           this.db.getTopicsList()

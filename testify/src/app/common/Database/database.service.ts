@@ -84,6 +84,35 @@ testSQL() {
   }
 
 
+  getCourseList(){
+    return this.db.executeSql('SELECT * FROM Course',[]).then(data => {
+       let dataList=[]
+      if(data.rows.length>0){
+
+        for(let i=0; i<data.rows.length;i++){
+          dataList.push({
+            CourseId: data.rows.item(i).CourseId,
+            CourseName: data.rows.item(i).CourseName
+          })
+        }
+        return dataList;
+      }
+      else{
+        return null;
+      }
+
+
+    });
+  }
+
+
+
+
+
+
+
+
+
   getQuestionType(){
     return this.db.executeSql('SELECT * FROM QuestionType',[]).then(data => {
        let dataList=[]
@@ -152,7 +181,7 @@ testSQL() {
 
 
   getTestList(CreatedBy){
-    return this.db.executeSql('SELECT Test.TestId,	Test.TestName,	Test.CourseId,	User.Username FROM Test INNER JOIN User on Test.CreatedBy = User.UserId WHERE Test.CreatedBy = ?;',[CreatedBy]).then(data => {
+    return this.db.executeSql('SELECT Test.TestId,	Test.TestName,	Test.CourseId, Course.CourseName,	User.Username FROM Test INNER JOIN User on Test.CreatedBy = User.UserId INNER JOIN Course on Test.CourseId = Course.CourseId WHERE Test.CreatedBy = ?;',[CreatedBy]).then(data => {
        let dataList=[]
       if(data.rows.length>0){
 
@@ -160,7 +189,8 @@ testSQL() {
           dataList.push({
             TestId: data.rows.item(i).TestId,
             TestName: data.rows.item(i).TestName,
-            CourseId : data.rows.item(i).TestName,
+            CourseId : data.rows.item(i).CourseId,
+            CourseName : data.rows.item(i).CourseName,
             Username : data.rows.item(i).Username
           })
         }
@@ -176,7 +206,7 @@ testSQL() {
 
 
   getStudentTestList(){
-    return this.db.executeSql('SELECT Test.TestId,	Test.TestName,	Test.CourseId,	User.Username FROM Test INNER JOIN User on Test.CreatedBy = User.UserId;',[]).then(data => {
+    return this.db.executeSql('SELECT Test.TestId,	Test.TestName,	Test.CourseId, Course.CourseName,	User.Username FROM Test INNER JOIN User on Test.CreatedBy = User.UserId INNER JOIN Course on Test.CourseId = Course.CourseId ;',[]).then(data => {
        let dataList=[]
       if(data.rows.length>0){
 
@@ -184,7 +214,8 @@ testSQL() {
           dataList.push({
             TestId: data.rows.item(i).TestId,
             TestName: data.rows.item(i).TestName,
-            CourseId : data.rows.item(i).TestName,
+            CourseId : data.rows.item(i).CourseId,
+            CourseName : data.rows.item(i).CourseName,
             Username : data.rows.item(i).Username
           })
         }

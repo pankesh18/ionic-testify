@@ -1,17 +1,35 @@
-<!-- <ion-header>
+<ion-header>
   <ion-toolbar>
-    <ion-title>test</ion-title>
+    <ion-title>Tests</ion-title>
   </ion-toolbar>
-</ion-header> -->
-
-<ion-content>
-
-<app-test-list [testlist]="testlist"></app-test-list>
-
-<app-create-test (OutTestInfo)="getTestInfo($event)" *ngIf="pageSquenceNo===1"></app-create-test>
+</ion-header>
 
 
-<app-add-question (OutQuestionList)="getQuestionList($event)" *ngIf="pageSquenceNo===2"></app-add-question>
+<!-- <ion-content style="text-align: center;">
 
-<button ion-button type="button" block  (click)="createTest()" *ngIf="pageSquenceNo===1">Create Test</button>
+</ion-content> -->
+
+<ion-content style="margin: auto;">
+  <div style="margin: 15px;text-align: center;">
+    <ion-button  shape="round" (click)="goToAddTest()" *ngIf="pageSquenceNo===1">Add Test</ion-button>
+  </div>
+
+
+
+<app-test-list [testlist]="testlist"  *ngIf="pageSquenceNo===1"></app-test-list>
+
+
+<ion-button color="medium" Size="small" (click)="pageSquenceNo=1" *ngIf="pageSquenceNo===2">Back to List</ion-button>
+<app-create-test (OutTestInfo)="getTestInfo($event)" *ngIf="pageSquenceNo===2"></app-create-test>
+
+
+<ion-button color="medium" Size="small" (click)="pageSquenceNo=2" *ngIf="pageSquenceNo===3">Go Back</ion-button>
+<app-add-question (OutQuestionList)="getQuestionList($event)" *ngIf="pageSquenceNo===3"></app-add-question>
+
+
+
+<div style="margin: 15px;text-align: center;">
+  <ion-button ion-center shape="round" (click)="createTest()" *ngIf="pageSquenceNo===3">Create Test</ion-button>
+</div>
+
 </ion-content>

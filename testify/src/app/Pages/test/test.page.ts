@@ -3,6 +3,7 @@ import { DatabaseService } from 'src/app/common/Database/database.service';
 import { StorageService } from 'src/app/common/Storage/storage.service';
 import { User } from '../login/login.models';
 import {Question, Test} from './test.models'
+import { ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class TestPage implements OnInit {
   pageSquenceNo:number=1;
   userInfo: User;
   testlist: Test[];
-  constructor(private db: DatabaseService, private storageService: StorageService) { }
+  constructor(private db: DatabaseService, private storageService: StorageService,private toastController: ToastController) { }
 
   ngOnInit() {
     this.storageService.getItem('UserInfo')
@@ -27,12 +28,20 @@ export class TestPage implements OnInit {
   }
 
 
+  goToAddTest() {
+
+    this.pageSquenceNo=2;
+
+  }
+
+
+
   getTestInfo(testInfo: any) {
     console.log(testInfo);
     this.objTest.TestName=testInfo.TestName
     this.objTest.CourseId=testInfo.CourseId
     this.objTest.CreatedBy=testInfo.CreatedBy
-    this.pageSquenceNo=2;
+    this.pageSquenceNo=3;
 
   }
 
@@ -51,14 +60,43 @@ export class TestPage implements OnInit {
     });
 
 
-    console.log(QuestionList);
-    this.pageSquenceNo=1;
+    console.log(this.objTest);
+
   }
 
 
 
 
+  presentToast(Message:string) {
+    this.toastController.create({
+      message: Message,
+      position: 'top',
+      color:'danger',
+      icon: 'warning',
+      duration: 2000
+    }).then(toast=>{
+      toast.present();
+    })
+
+  }
+
+
   createTest(){
+
+
+
+    if(!(this.objTest.QuestionList.length>0)){
+      this.presentToast('Please Add Questions')
+      return
+    }
+
+
+
+
+
+
+
+
     this.db.getDatabaseState().subscribe(rdy => {
       if(rdy){
 

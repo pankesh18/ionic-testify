@@ -1,13 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>student-test</ion-title>
+    <ion-title>Tests</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <app-student-testlist></app-student-testlist>
+  <app-student-testlist (selectedTest)="gettestId($event)" *ngIf="pageSquence===1"></app-student-testlist>
 
-  <app-testpad [TestId]="1"></app-testpad>
+
+  <button ion-left (click)="pageSquence=1" *ngIf="pageSquence===2">Back to list</button>
+  <app-testpad [TestId]="testId" *ngIf="testId!==undefined && pageSquence===2"></app-testpad>
+
 
 </ion-content>
+

@@ -1,9 +1,38 @@
 <ion-list>
   <ion-item *ngFor="let test of testlist; let i = index ">
-    <ion-label>{{i+1}}. {{test.TestName}}
 
-      <ion-note>CreatedBy : {{test.CreatedBy}}</ion-note>
+    <ion-label>
+
+
+
+
+
+      <table>
+        <tbody>
+          <tr>
+            <td rowspan="3">
+              <ion-text>
+              <h1>{{i+1}}) </h1>
+              </ion-text>
+            </td>
+            <td>
+              <h2>
+            <strong>{{test.TestName}}</strong>
+              </h2>
+            </td>
+          </tr>
+          <tr>
+            <td><p>CreatedBy : {{test.Username}}</p></td>
+          </tr>
+          <tr>
+            <td><p>Course : {{test.CourseName}}</p></td>
+          </tr>
+        </tbody>
+      </table>
+
     </ion-label>
+
+
 
   </ion-item>
 </ion-list>

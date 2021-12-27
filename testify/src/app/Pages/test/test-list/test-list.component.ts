@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatabaseService } from 'src/app/common/Database/database.service';
 import { StorageService } from 'src/app/common/Storage/storage.service';
 import { User } from '../../login/login.models';
@@ -14,6 +14,7 @@ export class TestListComponent implements OnInit {
 
   userInfo:User;
   @Input()  testlist:Test[]=[]
+  @Output() selectedTest= new EventEmitter<any>();
 
   constructor(private db:DatabaseService,private storageService:StorageService) {
 
@@ -29,6 +30,9 @@ export class TestListComponent implements OnInit {
 
 
 
+  selectTest(TestId){
 
+    this.selectedTest.emit(TestId);
+  }
 
 }

@@ -3,6 +3,7 @@ export class Test{
   TestId: number
   TestName: string
   CourseId: number
+  CourseName: string
   CreatedBy: any
   QuestionList:Question[] = []
 }
