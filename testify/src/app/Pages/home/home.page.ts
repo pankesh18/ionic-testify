@@ -10,11 +10,12 @@ import { AlertController } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
   public appPages = [
-    { title: 'Profile', url: '/profile', icon: 'person' },
-    { title: 'Test', url: '/home/test', icon: 'paper-plane' },
-    { title: 'Student-Test', url: '/home/studenttest', icon: 'clipboard' },
-    { title: 'Result', url: '/home/result', icon: 'heart' }
+    { title: 'Profile', url: '/home/profile', icon: 'person' , show:true },
+    { title: 'Test', url: '/home/test', icon: 'paper-plane', show:true },
+    { title: 'Student-Test', url: '/home/studenttest', icon: 'clipboard' , show:true},
+    { title: 'Result', url: '/home/result', icon: 'heart' , show:true}
   ];
+  userInfo: any;
 
 
   constructor(private storageService:StorageService, private alertController: AlertController) {
@@ -23,6 +24,17 @@ export class HomePage implements OnInit {
    }
 
   ngOnInit() {
+
+    this.storageService.getItem('UserInfo')?.then(data=>{
+      this.userInfo= JSON.parse(data);
+      if(this.userInfo.UserTypeId===1){
+        this.appPages[2].show=false
+      }
+      else{
+        this.appPages[1].show=false
+      }
+
+    })
 
   }
 

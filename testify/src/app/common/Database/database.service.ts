@@ -290,6 +290,57 @@ testSQL() {
 
 
 
+  getStudentResultList(UserId){
+    let param=[UserId]
+    return this.db.executeSql('SELECT distinct	Test.TestId,	Test.TestName,	Test.CourseId, Course.CourseName,	User.Username as CreatedBy FROM Test INNER JOIN Question ON Test.TestId=Question.TestId INNER JOIN	UserAnswer ON Question.QuestionId=UserAnswer.QuestionId INNER JOIN User on Test.CreatedBy = User.UserId INNER JOIN Course on Test.CourseId = Course.CourseId WHERE UserAnswer.UserId =?;',param).then(data => {
+       let dataList=[]
+      if(data.rows.length>0){
+
+        for(let i=0; i<data.rows.length;i++){
+          dataList.push({
+            TestId: data.rows.item(i).TestId,
+            TestName: data.rows.item(i).TestName,
+            CourseId : data.rows.item(i).CourseId,
+            CourseName : data.rows.item(i).CourseName,
+            CreatedBy : data.rows.item(i).CreatedBy
+          })
+        }
+        return dataList;
+      }
+      else{
+        return null;
+      }
+
+
+    });
+  }
+
+
+  getResultList(UserId){
+    let param=[UserId]
+    return this.db.executeSql('SELECT distinct	Test.TestId,	Test.TestName,	Test.CourseId, Course.CourseName,	User.Username as SubmittedBy FROM Test INNER JOIN Question ON Test.TestId=Question.TestId INNER JOIN	UserAnswer ON Question.QuestionId=UserAnswer.QuestionId INNER JOIN User on UserAnswer.UserId = User.UserId INNER JOIN Course on Test.CourseId = Course.CourseId WHERE Test.CreatedBy =?;',param).then(data => {
+       let dataList=[]
+      if(data.rows.length>0){
+
+        for(let i=0; i<data.rows.length;i++){
+          dataList.push({
+            TestId: data.rows.item(i).TestId,
+            TestName: data.rows.item(i).TestName,
+            CourseId : data.rows.item(i).CourseId,
+            CourseName : data.rows.item(i).CourseName,
+            SubmittedBy : data.rows.item(i).SubmittedBy
+          })
+        }
+        return dataList;
+      }
+      else{
+        return null;
+      }
+
+
+    });
+  }
+
 
 
   getTestPadQuestions(TestId){
@@ -380,5 +431,10 @@ testSQL() {
   }
 
 
+
+  updatePassword(Password,UserId) {
+    let data = [Password,	 UserId];
+    return from(this.db.executeSql('UPDATE User SET Password = ? WHERE UserId = ?;', data).then(row=>{  return row.insertId }))
+  }
 
 }

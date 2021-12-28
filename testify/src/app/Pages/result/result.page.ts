@@ -10,6 +10,7 @@ import { StorageService } from 'src/app/common/Storage/storage.service';
 export class ResultPage implements OnInit {
   testlist: any[]=[];
   userInfo: any;
+  isTestList: boolean=false;
 
   constructor(private db: DatabaseService, private storageService: StorageService) { }
 
@@ -17,21 +18,29 @@ export class ResultPage implements OnInit {
     this.storageService.getItem('UserInfo')
     .then(data=>{
       this.userInfo= JSON.parse(data);
-      this.getTestList()
+      if(this.userInfo.UserTypeId==1){
+        this.getResultList()
+      }
+      else{
+        this.getStudentResultList()
+      }
+
     })
   }
 
 
 
-  getTestList(){
+  getStudentResultList(){
     this.testlist=undefined;
+    this.isTestList=false;
     this.db.getDatabaseState().subscribe(rdy => {
         if(rdy){
-          this.db.getTestList(this.userInfo.UserId)
+          this.db.getStudentResultList(this.userInfo.UserId)
           .then(data=>{
             console.log(data)
             if(data!=null && data!=undefined){
                 this.testlist=data;
+                this.isTestList=true;
                 this.testlist.forEach(test=>{
                   this.db.getCorrectQuestion(test.TestId).then(res=>{
                     test.Result=res;
@@ -48,6 +57,37 @@ export class ResultPage implements OnInit {
     });
 
   }
+
+  getResultList(){
+    this.testlist=undefined;
+    this.isTestList=false;
+    this.db.getDatabaseState().subscribe(rdy => {
+        if(rdy){
+          this.db.getResultList(this.userInfo.UserId)
+          .then(data=>{
+            console.log(data)
+            if(data!=null && data!=undefined){
+                this.testlist=data;
+                this.isTestList=true;
+                this.testlist.forEach(test=>{
+                  this.db.getCorrectQuestion(test.TestId).then(res=>{
+                    test.Result=res;
+                    console.log(test)
+                  })
+
+                })
+
+
+            }
+          })
+
+        }
+    });
+
+  }
+
+
+
 
   getScoreFromResult(result){
     if(result!==null && result!==undefined){

@@ -5,9 +5,7 @@
 </ion-header>
 
 <ion-content>
-
-
-  <ion-list>
+  <ion-list *ngIf="isTestList">
     <ion-item *ngFor="let test of testlist; let i = index ">
 
       <ion-label>
@@ -26,7 +24,8 @@
               </td>
             </tr>
             <tr>
-              <td><p>CreatedBy : {{test.Username}}</p></td>
+              <td *ngIf="userInfo.UserTypeId===2"><p>Created By : {{test.CreatedBy}}</p></td>
+              <td *ngIf="userInfo.UserTypeId===1"><p>Submitted By : {{test.SubmittedBy}}</p></td>
             </tr>
             <tr>
               <td><p>Course : {{test.CourseName}}</p></td>
@@ -48,5 +47,9 @@
 
 
   </ion-list>
+
+  <div style="margin: 15px;text-align: center;" *ngIf="!isTestList">
+    <ion-text color="danger">No Records Found!</ion-text>
+  </div>
 
 </ion-content>
