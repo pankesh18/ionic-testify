@@ -20,4 +20,7 @@ export class StudentTestPage implements OnInit {
     console.log(this.testId)
   }
 
+  isSubmitted(){
+    this.pageSquence=1
+  }
 }

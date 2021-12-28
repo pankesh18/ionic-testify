@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { element } from 'protractor';
 import { DatabaseService } from 'src/app/common/Database/database.service';
 import { StorageService } from 'src/app/common/Storage/storage.service';
@@ -6,6 +6,9 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { DocumentViewer ,DocumentViewerOptions} from '@awesome-cordova-plugins/document-viewer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
+import { Console } from 'console';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -17,6 +20,8 @@ export class TestpadComponent implements OnInit {
 
 
   @Input() TestId:any;
+  @Output() isSubmitted= new EventEmitter<boolean>();
+
   questionlist: any[];
   AnswerList:any[]=[];
   userInfo: any;
@@ -24,7 +29,7 @@ export class TestpadComponent implements OnInit {
 
 
 
-  constructor(private db: DatabaseService, private storageService: StorageService,private fileChooser: FileChooser,private camera: Camera,private document: DocumentViewer,private filePath: FilePath) {
+  constructor(private db: DatabaseService, private storageService: StorageService,private fileChooser: FileChooser,private camera: Camera,private document: DocumentViewer,private filePath: FilePath, private router:Router) {
 
    }
 
@@ -200,26 +205,33 @@ submitTest(){
     var answer ={
       "QuestionId": question.QuestionId,
       "OptionSelected":question.Answer,
-      "IsCorrect": question.OptionList[index].IsCorrect
+      "IsCorrect":  index>0 ? question.OptionList[index].IsCorrect : 0
     }
 
     console.log(answer)
     this.AnswerList.push(answer);
 
   })
-  this.AddAnswers(this.AnswerList);
+  this.AddAnswers(this.AnswerList).add(this.submit()
+
+
+  )
 
 
 }
 
 
+submit(){
 
+  this.isSubmitted.emit(true);
+  this.router.navigate(['/home/result'])
+}
 
 AddAnswers(AnswerList){
 
 
 
-  this.db.getDatabaseState().subscribe(rdy => {
+  return this.db.getDatabaseState().subscribe(rdy => {
       if(rdy){
         AnswerList.forEach(async answer => {
           await this.db.addAnswer(answer.QuestionId, answer.OptionSelected,answer.IsCorrect,this.userInfo.UserId)

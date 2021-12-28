@@ -29,7 +29,7 @@
     </ion-label>
 
     <ion-icon ion-right name="pencil" style="margin: 5%;" *ngIf="test.Result===null||test.Result===undefined" (click)="goToTest(test.TestId)"></ion-icon>
-    <ion-text ion-right *ngIf="!(test.Result===null||test.Result===undefined)">Already Submitted!</ion-text>
+    <ion-text ion-right color="tertiary" *ngIf="!(test.Result===null||test.Result===undefined)">Submitted</ion-text>
 
   </ion-item>
 </ion-list>

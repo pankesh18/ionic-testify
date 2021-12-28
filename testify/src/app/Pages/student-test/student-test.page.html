@@ -9,8 +9,8 @@
   <app-student-testlist (selectedTest)="gettestId($event)" *ngIf="pageSquence===1"></app-student-testlist>
 
 
-  <button ion-left (click)="pageSquence=1" *ngIf="pageSquence===2">Back to list</button>
-  <app-testpad [TestId]="testId" *ngIf="testId!==undefined && pageSquence===2"></app-testpad>
+  <ion-button ion-left size="small" color="medium" (click)="pageSquence=1" *ngIf="pageSquence===2">Back to list</ion-button>
+  <app-testpad [TestId]="testId" (isSubmitted)="isSubmitted()" *ngIf="testId!==undefined && pageSquence===2"></app-testpad>
 
 
 </ion-content>

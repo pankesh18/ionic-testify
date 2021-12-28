@@ -24,13 +24,16 @@ export class HomePage implements OnInit {
    }
 
   ngOnInit() {
-
+    console.log("ngOnInit of Home")
     this.storageService.getItem('UserInfo')?.then(data=>{
       this.userInfo= JSON.parse(data);
       if(this.userInfo.UserTypeId===1){
+        console.log('admin test')
         this.appPages[2].show=false
       }
-      else{
+
+      if(this.userInfo.UserTypeId===2){
+        console.log('student test')
         this.appPages[1].show=false
       }
 

@@ -5,6 +5,7 @@ import { User } from '../login/login.models';
 import {Question, Test} from './test.models'
 import { ToastController } from '@ionic/angular';
 import { FilePath } from '@ionic-native/file-path/ngx';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class TestPage implements OnInit {
   pageSquenceNo:number=1;
   userInfo: User;
   testlist: Test[];
-  constructor(private db: DatabaseService, private storageService: StorageService,private toastController: ToastController,private filePath: FilePath) { }
+  constructor(private db: DatabaseService, private storageService: StorageService,private toastController: ToastController,private filePath: FilePath,private router:Router) { }
 
   ngOnInit() {
     this.storageService.getItem('UserInfo')
@@ -180,7 +181,14 @@ export class TestPage implements OnInit {
 
 
       }
-  });
+  }).add(
+    this.creatingTest()
+  )
+  }
+
+
+  creatingTest(){
+    this.pageSquenceNo=1
   }
 
   getTestList(){

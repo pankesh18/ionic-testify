@@ -12,6 +12,7 @@ export class ResultPage implements OnInit {
   userInfo: any;
   isTestList: boolean=false;
 
+
   constructor(private db: DatabaseService, private storageService: StorageService) { }
 
   ngOnInit() {
@@ -44,6 +45,8 @@ export class ResultPage implements OnInit {
                 this.testlist.forEach(test=>{
                   this.db.getCorrectQuestion(test.TestId).then(res=>{
                     test.Result=res;
+                    test.score=this.getScoreFromResult(test.Result)
+                    test.total=this.getTotalFromResult(test.Result)
                     console.log(test)
                   })
 
@@ -72,6 +75,8 @@ export class ResultPage implements OnInit {
                 this.testlist.forEach(test=>{
                   this.db.getCorrectQuestion(test.TestId).then(res=>{
                     test.Result=res;
+                    test.score=this.getScoreFromResult(test.Result)
+                    test.total=this.getTotalFromResult(test.Result)
                     console.log(test)
                   })
 
@@ -92,17 +97,22 @@ export class ResultPage implements OnInit {
   getScoreFromResult(result){
     if(result!==null && result!==undefined){
       let index = result.findIndex(x=>{ return x.IsCorrect===1})
-      return result[index].Count;
+      return index>0 ? result[index].Count: 0;
     }
     return 0
   }
 
   getTotalFromResult(result){
+    let total=0;
     if(result!==null && result!==undefined){
 
-      return result[0].Count+result[1].Count;
+      result.forEach(element => {
+        total+=element.Count
+      });
+
+
     }
-    return 0
+    return total
   }
 
 

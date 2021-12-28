@@ -5,8 +5,10 @@
 </ion-header>
 
 <ion-content>
+
   <ion-list *ngIf="isTestList">
     <ion-item *ngFor="let test of testlist; let i = index ">
+
 
       <ion-label>
         <table>
@@ -35,9 +37,9 @@
 
       </ion-label>
 
-      <ion-label slot="end">
+      <ion-label slot="end" style="margin-right: 5%">
 
-        <h1>Score : <ion-badge size="large" color="success"><h1> {{getScoreFromResult(test.Result)}} </h1></ion-badge> / <ion-badge size="large" color="medium" ><h1>{{getTotalFromResult(test.Result)}}</h1></ion-badge></h1>
+        <h1>Score : <ion-badge size="large" color="success"><h1> {{test.score}} </h1></ion-badge> / <ion-badge size="large" color="medium" ><h1>{{test.total}}</h1></ion-badge></h1>
 
 
       </ion-label>

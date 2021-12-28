@@ -53,6 +53,7 @@ export class StorageService {
         }
       }
       else{
+        this.clearStorage();
         this.router.navigate(['/login'])
       }
     })
