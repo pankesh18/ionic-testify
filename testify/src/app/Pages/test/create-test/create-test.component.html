@@ -1,11 +1,57 @@
-<ion-item>
-  <ion-label>Gaming</ion-label>
-  <ion-select >
-    <ion-select-option value="nes">NES</ion-select-option>
-    <ion-select-option value="n64">Nintendo64</ion-select-option>
-    <ion-select-option value="ps">PlayStation</ion-select-option>
-    <ion-select-option value="genesis">Sega Genesis</ion-select-option>
-    <ion-select-option value="saturn">Sega Saturn</ion-select-option>
-    <ion-select-option value="snes">SNES</ion-select-option>
-  </ion-select>
-</ion-item>
+
+
+  <ion-grid>
+
+    <ion-list>
+    <ion-row>
+      <ion-col>
+      <ion-list-header>
+        <ion-label>
+          <h1>Create Test</h1>
+
+        </ion-label>
+      </ion-list-header>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label>Test Name : </ion-label>
+        <ion-input type="text" required [(ngModel)]="test.TestName" name="TestName" placeholder="Enter Test Name"></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+    <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label>Course : </ion-label>
+        <ion-select placeholder="Select Course" required [(ngModel)]="test.CourseId">
+          <ion-select-option  *ngFor="let course of courseList;let i=index" value="{{course.CourseId}}">{{course.CourseName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label>Gaming</ion-label>
+        <ion-select interface="popover">
+          <ion-select-option value="nes">NES</ion-select-option>
+          <ion-select-option value="n64">Nintendo64</ion-select-option>
+          <ion-select-option value="ps">PlayStation</ion-select-option>
+          <ion-select-option value="genesis">Sega Genesis</ion-select-option>
+          <ion-select-option value="saturn">Sega Saturn</ion-select-option>
+          <ion-select-option value="snes">SNES</ion-select-option>
+        </ion-select>
+      </ion-item> -->
+    </ion-col>
+  </ion-row>
+    </ion-list>
+
+  <ion-row class="ion-justify-content-center">
+
+      <div style="margin: 15px;text-align: center;">
+        <ion-button  shape="round" (click)="AddTestInfo()">Add Questions</ion-button>
+      </div>
+    <!-- <button ion-button type="button" block  (click)="AddTestInfo()" >Next</button> -->
+
+  </ion-row>
+  </ion-grid>
+
