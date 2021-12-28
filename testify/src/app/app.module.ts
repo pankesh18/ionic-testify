@@ -21,6 +21,7 @@ import { LoginPageModule } from './Pages/login/login.module';
 import { StudentTestPageModule } from './Pages/student-test/student-test.module';
 import { TestPageModule } from './Pages/test/test.module';
 import { HomePageModule } from './Pages/home/home.module';
+import { ResultPageModule } from './Pages/result/result.module';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { HomePageModule } from './Pages/home/home.module';
      HomePageModule,
      LoginPageModule,
      StudentTestPageModule,
+     ResultPageModule,
      TestPageModule ,
      IonicStorageModule.forRoot(),
      AppRoutingModule

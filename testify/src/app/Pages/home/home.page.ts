@@ -13,7 +13,7 @@ export class HomePage implements OnInit {
     { title: 'Profile', url: '/profile', icon: 'person' },
     { title: 'Test', url: '/home/test', icon: 'paper-plane' },
     { title: 'Student-Test', url: '/home/studenttest', icon: 'clipboard' },
-    { title: 'Result', url: '/result', icon: 'heart' }
+    { title: 'Result', url: '/home/result', icon: 'heart' }
   ];
 
 

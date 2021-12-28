@@ -350,5 +350,35 @@ testSQL() {
   }
 
 
+  addAnswer(QuestionId,	OptionSelected	,IsCorrect,UserId) {
+    let data = [QuestionId,	OptionSelected	,IsCorrect, UserId];
+    return from(this.db.executeSql('INSERT  OR IGNORE  INTO UserAnswer (QuestionId,	OptionSelected	,IsCorrect,UserId) VALUES (?, ?, ?, ?)', data).then(row=>{  return row.insertId }))
+  }
+
+
+  getCorrectQuestion(TestId){
+    return this.db.executeSql('SELECT User.UserId,	User.Username,	IsCorrect,	COUNT(*) as Count FROM	Question INNER JOIN	UserAnswer ON Question.QuestionId=UserAnswer.QuestionId INNER JOIN User ON UserAnswer.UserId=User.UserId WHERE TestId=? GROUP BY User.UserId,User.Username,IsCorrect;',[TestId]).then(data => {
+       let dataList=[]
+      if(data.rows.length>0){
+
+        for(let i=0; i<data.rows.length;i++){
+          dataList.push({
+            UserId: data.rows.item(i).UserId,
+            Username: data.rows.item(i).Username,
+            IsCorrect : data.rows.item(i).IsCorrect,
+            Count : data.rows.item(i).Count
+          })
+        }
+        return dataList;
+      }
+      else{
+        return null;
+      }
+
+
+    });
+  }
+
+
 
 }

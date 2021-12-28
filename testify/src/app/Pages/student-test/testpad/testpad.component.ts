@@ -18,18 +18,22 @@ export class TestpadComponent implements OnInit {
 
   @Input() TestId:any;
   questionlist: any[];
-
+  AnswerList:any[]=[];
+  userInfo: any;
 
 
 
 
   constructor(private db: DatabaseService, private storageService: StorageService,private fileChooser: FileChooser,private camera: Camera,private document: DocumentViewer,private filePath: FilePath) {
 
-
    }
 
   ngOnInit() {
+    this.storageService.getItem('UserInfo')
+    .then(data=>{
+      this.userInfo= JSON.parse(data);
 
+    })
     this.getTestPadQuestions(this.TestId)
   }
 
@@ -189,8 +193,40 @@ openFile(File){
 submitTest(){
 
   this.questionlist.forEach(question=>{
-    console.log(question.Answer);
+
+
+    let index = question.OptionList.findIndex(x=> x.AnswerOptionId==question.Answer)
+
+    var answer ={
+      "QuestionId": question.QuestionId,
+      "OptionSelected":question.Answer,
+      "IsCorrect": question.OptionList[index].IsCorrect
+    }
+
+    console.log(answer)
+    this.AnswerList.push(answer);
+
   })
+  this.AddAnswers(this.AnswerList);
+
+
+}
+
+
+
+
+AddAnswers(AnswerList){
+
+
+
+  this.db.getDatabaseState().subscribe(rdy => {
+      if(rdy){
+        AnswerList.forEach(async answer => {
+          await this.db.addAnswer(answer.QuestionId, answer.OptionSelected,answer.IsCorrect,this.userInfo.UserId)
+        });
+
+      }
+  });
 
 }
 

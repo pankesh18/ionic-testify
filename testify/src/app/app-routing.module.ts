@@ -4,6 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomePage } from './Pages/home/home.page';
 import { LoginPage } from './Pages/login/login.page';
+import { ResultPage } from './Pages/result/result.page';
 
 const routes: Routes = [
 
