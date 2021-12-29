@@ -3,7 +3,7 @@ import { DatabaseService } from 'src/app/common/Database/database.service';
 import { StorageService } from 'src/app/common/Storage/storage.service';
 import { User } from '../login/login.models';
 import {Question, Test} from './test.models'
-import { ToastController } from '@ionic/angular';
+import { ToastController, MenuController } from '@ionic/angular';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { Router } from '@angular/router';
 
@@ -19,7 +19,7 @@ export class TestPage implements OnInit {
   pageSquenceNo:number=1;
   userInfo: User;
   testlist: Test[];
-  constructor(private db: DatabaseService, private storageService: StorageService,private toastController: ToastController,private filePath: FilePath,private router:Router) { }
+  constructor(private db: DatabaseService, private storageService: StorageService,private toastController: ToastController,private filePath: FilePath,private router:Router,private menu:MenuController) { }
 
   ngOnInit() {
     this.storageService.getItem('UserInfo')
@@ -27,6 +27,10 @@ export class TestPage implements OnInit {
       this.userInfo= JSON.parse(data);
       this.getTestList();
     })
+  }
+
+  menuToggle(){
+    this.menu.toggle()
   }
 
 
@@ -129,14 +133,12 @@ export class TestPage implements OnInit {
             let file=""
 
             item.QuestionFileList.forEach((qFile,index)=>{
-              file=file+ `<a onclick="openFile(${qIndex},${index})">File</a>`
 
               QuestionAttachments.push({
                 "File":qFile,
                 "Index": index
               })
             })
-            item.QuestionBody = item.QuestionBody + `<p>Questions Files : </p></br>` + file
           }
 
 

@@ -17,6 +17,7 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
   imports: [
     CommonModule,
     FormsModule,
+
     IonicModule,
     SplitterModule,
     ScrollPanelModule,

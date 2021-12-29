@@ -1,6 +1,11 @@
-
+<!--
   <ion-split-pane contentId="main-content">
+
+
     <ion-menu contentId="main-content" type="overlay">
+
+
+
       <ion-content>
         <ion-list id="inbox-list">
           <ion-header>
@@ -24,6 +29,8 @@
 
 
 
+
+
         </ion-list>
         <ion-footer>
           <ion-item (click)="AlertConfirm()">
@@ -34,9 +41,36 @@
 
       </ion-content>
     </ion-menu>
-    <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-split-pane>
 
 
+
+  </ion-split-pane> -->
+
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button  (click)="routerNavigate('/home/profile')">
+        <ion-icon name="person"></ion-icon>
+        <ion-label>Profile</ion-label>
+
+      </ion-tab-button>
+
+      <ion-tab-button  (click)="routerNavigate('/home/test')" *ngIf="userInfo!==undefined && userInfo.UserTypeId===1">
+        <ion-icon name="albums"></ion-icon>
+        <ion-label>Tests</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button  (click)="routerNavigate('/home/studenttest')" *ngIf="userInfo!==undefined && userInfo.UserTypeId===2 ">
+        <ion-icon name="create"></ion-icon>
+        <ion-label>Student Tests</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button (click)="routerNavigate('/home/result')">
+        <ion-icon name="bar-chart"></ion-icon>
+        <ion-label>Result</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 
 

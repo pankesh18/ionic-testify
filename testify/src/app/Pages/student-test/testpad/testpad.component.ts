@@ -8,6 +8,7 @@ import { DocumentViewer ,DocumentViewerOptions} from '@awesome-cordova-plugins/d
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { Console } from 'console';
 import { Router } from '@angular/router';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 
 
 
@@ -21,7 +22,7 @@ export class TestpadComponent implements OnInit {
 
   @Input() TestId:any;
   @Output() isSubmitted= new EventEmitter<boolean>();
-
+  doc:any;
   questionlist: any[];
   AnswerList:any[]=[];
   userInfo: any;
@@ -29,7 +30,7 @@ export class TestpadComponent implements OnInit {
 
 
 
-  constructor(private db: DatabaseService, private storageService: StorageService,private fileChooser: FileChooser,private camera: Camera,private document: DocumentViewer,private filePath: FilePath, private router:Router) {
+  constructor(private db: DatabaseService, private storageService: StorageService,private fileChooser: FileChooser,private camera: Camera,private document: DocumentViewer,private filePath: FilePath, private router:Router, private file:File) {
 
    }
 
@@ -161,38 +162,58 @@ openCamera(QuestionId){
 
 openFile(File){
 
-//   console.log("indexes  ::  "+qIndex + ":::"+fIndex);
 
-//  let qFileList= JSON.parse(this.questionlist[qIndex].QuestionAttachments)
-
-//  console.log(qFileList);
-
-//  let File=qFileList[fIndex].File
-
-
- console.log(File);
 
   const options: DocumentViewerOptions = {
-    title: 'My PDF'
+    title: 'My Document'
   }
 
   console.log("File :: "+File)
 
   this.filePath.resolveNativePath(File).then(url=>{
     console.log(url)
-    this.document.viewDocument(url, 'application/pdf', options, function(){
-
-    } , ()=>{
-
-    }, ()=>{
-
-    },(error: any)=>{
-      console.log("Error :: "+error)
-    })
+    this.document.viewDocument(url, 'application/pdf', options)
   })
 
 
 }
+
+
+fileView(){
+  const options: DocumentViewerOptions = {
+    title: 'My PDF'
+  }
+let path = this.file.applicationDirectory + 'www/assets'
+  // this.document.viewDocument(`${path}Pankesh_CA_contribution.pdf`, 'application/pdf', options)
+  this.file.listDir(path,"").then(data=>{
+    console.log(data)
+  })
+
+this.fileChooser.open().then(uri=>
+  {
+    console.log(uri)
+    this.filePath.resolveNativePath(uri).then(nativepath=>{
+
+      console.log(nativepath)
+      var dirName = nativepath.substring(0,nativepath.lastIndexOf('/'))
+      var filename = nativepath.replace(/^.*[\\\/]/, '')
+
+      this.document.viewDocument(nativepath,'application/pdf',options)
+    })
+
+  }
+
+)
+
+
+  // this.file.readAsDataURL(path,'Pankesh_CA_contribution.pdf').then(dataURL=>{
+  //   console.log(dataURL)
+  // })
+}
+
+
+
+
 
 
 submitTest(){

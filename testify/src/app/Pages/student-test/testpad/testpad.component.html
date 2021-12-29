@@ -5,12 +5,17 @@
 		<ng-template pTemplate>
 			<div class="p-col p-d-flex p-ai-center p-jc-center" style="height: 300px; overflow: scroll; width: 100%;">
         <span [innerHTML]="question.QuestionBody"></span>
-        <!-- <button (click)="openFile(i,0)">links</button> -->
-			</div>
-      <div *ngFor="let f of question.Files; let j=index">
-        <button (click)="openFile(f.File)">links</button>
 
-    </div>
+        <p *ngIf="question.Files!==undefined && question.Files.length>0">
+          Question Files :
+        </p>
+        <div *ngFor="let f of question.Files; let j=index">
+          <a (click)="openFile(f.File)">File-{{j+1}}</a>
+
+        </div>
+			</div>
+
+
 		</ng-template>
 		<ng-template pTemplate *ngIf="question.QuestionTypeId===1">
 			<div class="p-col p-d-flex p-ai-center p-jc-center">

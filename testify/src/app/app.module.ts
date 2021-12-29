@@ -23,6 +23,7 @@ import { TestPageModule } from './Pages/test/test.module';
 import { HomePageModule } from './Pages/home/home.module';
 import { ResultPageModule } from './Pages/result/result.module';
 import { ProfilePageModule } from './Pages/profile/profile.module';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import { ProfilePageModule } from './Pages/profile/profile.module';
      IonicStorageModule.forRoot(),
      AppRoutingModule
     ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },SQLite , SQLitePorter,FileChooser,Camera, DeviceOrientation, FilePath, DocumentViewer],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },SQLite , SQLitePorter,FileChooser,Camera, DeviceOrientation, FilePath, DocumentViewer, File],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

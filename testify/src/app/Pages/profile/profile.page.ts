@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/common/Database/database.service';
 import { StorageService } from 'src/app/common/Storage/storage.service';
 import { ToastController } from '@ionic/angular';
+import { AlertController , MenuController} from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +14,7 @@ export class ProfilePage implements OnInit {
   ischangePassword:boolean=false;
   CurrentPassword:any;
   NewPassword:any;
-  constructor(private db: DatabaseService, private storageService: StorageService,private toastController: ToastController) { }
+  constructor(private db: DatabaseService, private storageService: StorageService,private toastController: ToastController,private alertController: AlertController) { }
 
   ngOnInit() {
 
@@ -74,6 +75,45 @@ export class ProfilePage implements OnInit {
     )
 
   }
+
+
+  AlertConfirm() {
+    // this.logout()
+
+    this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm',
+      message: 'Do you want to logout?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          id: 'cancel-button',
+          handler: (blah) => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Yes',
+          id: 'confirm-button',
+          handler: () => {
+            console.log('Confirm yes');
+            this.logout()
+          }
+        }
+      ]
+    }).then(alert=>{
+      alert.present().then(data=>{
+
+      }).catch(reason=>{
+        console.log(reason)
+      })
+    }).catch(reason=>{
+      console.log(reason)
+    })
+
+
+  }
+
 
 
 }

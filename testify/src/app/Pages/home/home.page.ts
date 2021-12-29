@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/common/Storage/storage.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController , MenuController} from '@ionic/angular';
+import { Router } from '@angular/router';
+import { User } from '../login/login.models';
 
 
 @Component({
@@ -15,10 +17,10 @@ export class HomePage implements OnInit {
     { title: 'Student-Test', url: '/home/studenttest', icon: 'clipboard' , show:true},
     { title: 'Result', url: '/home/result', icon: 'heart' , show:true}
   ];
-  userInfo: any;
+  userInfo: User;
 
 
-  constructor(private storageService:StorageService, private alertController: AlertController) {
+  constructor(private storageService:StorageService, private alertController: AlertController, private menu:MenuController, private router:Router) {
     console.log('Home!!')
     this.storageService.checkSession();
    }
@@ -84,4 +86,10 @@ export class HomePage implements OnInit {
 
   }
 
+
+
+
+  routerNavigate(URL){
+    this.router.navigate([URL])
+  }
 }

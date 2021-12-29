@@ -4,8 +4,18 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-row class="ion-justify-content-center">
+<div (click)="AlertConfirm()">
+  <ion-item lines="none">
+    <ion-icon size="large" name="log-out-sharp" style="margin: 10px;"></ion-icon>
+    <ion-label>Logout </ion-label>
+  </ion-item>
+</div>
+</ion-row>
+
 <ion-content>
   <ion-list *ngIf="userInfo!==null && userInfo!==undefined">
+
     <ion-item>
       <ion-label>
         <h1>Username : </h1>
